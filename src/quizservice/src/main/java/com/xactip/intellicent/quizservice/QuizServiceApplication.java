@@ -1,13 +1,13 @@
-package com.xactip.intellicent.usermanagementservice;
+package com.xactip.intellicent.quizservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class UsermanagementserviceApplication {
+public class QuizServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(UsermanagementserviceApplication.class, args);
+		SpringApplication.run(QuizServiceApplication.class, args);
 	}
 
 }

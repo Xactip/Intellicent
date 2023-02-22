@@ -1,10 +1,10 @@
-package com.xactip.intellicent.usermanagementservice;
+package com.xactip.intellicent.quizservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class UsermanagementserviceApplicationTests {
+class QuizServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
