@@ -17,38 +17,38 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/categories")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class CategoryController {
 
     private final CategoryService service;
 
-    @GetMapping("/")
+    @GetMapping("/categories")
     public ResponseEntity<List<CategoryDto>> getAllCategories() {
         List<CategoryDto> categories = service.getAllCategories();
         return ResponseEntity.ok(categories);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/categories/{id}")
     public ResponseEntity<CategoryDto> getCategoryById(@PathVariable("id") String id) {
         CategoryDto category = service.getCategoryById(id);
         return ResponseEntity.ok(category);
     }
 
-    @PostMapping("/")
+    @PostMapping("/categories")
     public ResponseEntity<CategoryDto> addCategory(@Valid @RequestBody CategoryDto categoryDto) {
         CategoryDto createdCategory = service.addCategory(categoryDto);
         return ResponseEntity.ok(createdCategory);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/categories/{id}")
     public ResponseEntity<CategoryDto> updateCategory(@PathVariable("id") String id,
                                                       @Valid @RequestBody CategoryDto categoryDto) {
         CategoryDto updatedCategory = service.updateCategory(id, categoryDto);
         return ResponseEntity.ok(updatedCategory);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/categories/{id}")
     public ResponseEntity<Void> deleteCategoryById(@PathVariable("id") String id) {
         service.deleteCategoryById(id);
         return ResponseEntity.noContent().build();

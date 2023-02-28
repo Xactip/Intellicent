@@ -17,38 +17,38 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/subcategories")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class SubcategoryController {
 
     private final SubcategoryService service;
 
-    @GetMapping("/")
+    @GetMapping("/subcategories")
     public ResponseEntity<List<SubcategoryDto>> getAllSubcategories() {
         List<SubcategoryDto> categories = service.getAllSubcategories();
         return ResponseEntity.ok(categories);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/subcategories/{id}")
     public ResponseEntity<SubcategoryDto> getSubcategoryById(@PathVariable("id") String id) {
         SubcategoryDto subcategory = service.getSubcategoryById(id);
         return ResponseEntity.ok(subcategory);
     }
 
-    @PostMapping("/")
+    @PostMapping("/subcategories")
     public ResponseEntity<SubcategoryDto> addSubcategory(@Valid @RequestBody SubcategoryDto subcategoryDto) {
         SubcategoryDto createdSubcategory = service.addSubcategory(subcategoryDto);
         return ResponseEntity.ok(createdSubcategory);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/subcategories/{id}")
     public ResponseEntity<SubcategoryDto> updateSubcategory(@PathVariable("id") String id,
                                                             @Valid @RequestBody SubcategoryDto subcategoryDto) {
         SubcategoryDto updatedSubcategory = service.updateSubcategory(id, subcategoryDto);
         return ResponseEntity.ok(updatedSubcategory);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/subcategories/{id}")
     public ResponseEntity<Void> deleteSubcategoryById(@PathVariable("id") String id) {
         service.deleteSubcategoryById(id);
         return ResponseEntity.noContent().build();

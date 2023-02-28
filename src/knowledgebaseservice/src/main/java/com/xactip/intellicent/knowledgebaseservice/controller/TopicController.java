@@ -17,38 +17,38 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/topics")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class TopicController {
 
     private final TopicService service;
 
-    @GetMapping("/")
+    @GetMapping("/topics")
     public ResponseEntity<List<TopicDto>> getAllTopics() {
         List<TopicDto> categories = service.getAllTopics();
         return ResponseEntity.ok(categories);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/topics/{id}")
     public ResponseEntity<TopicDto> getTopicById(@PathVariable("id") String id) {
         TopicDto topic = service.getTopicById(id);
         return ResponseEntity.ok(topic);
     }
 
-    @PostMapping("/")
+    @PostMapping("/topics")
     public ResponseEntity<TopicDto> addTopic(@Valid @RequestBody TopicDto topicDto) {
         TopicDto createdTopicDto = service.addTopic(topicDto);
         return ResponseEntity.ok(createdTopicDto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/topics/{id}")
     public ResponseEntity<TopicDto> updateTopic(@PathVariable("id") String id,
                                                 @Valid @RequestBody TopicDto topicDto) {
         TopicDto updatedTopic = service.updateTopic(id, topicDto);
         return ResponseEntity.ok(updatedTopic);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/topics/{id}")
     public ResponseEntity<Void> deleteTopicById(@PathVariable("id") String id) {
         service.deleteTopicById(id);
         return ResponseEntity.noContent().build();
