@@ -43,7 +43,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-            return http.authorizeHttpRequests().requestMatchers("/**").hasRole("user").anyRequest().authenticated()
+        return http.authorizeHttpRequests().requestMatchers("/**").hasRole("user").anyRequest().authenticated()
                 .and().oauth2Login()
                 .and().logout().logoutUrl("/logout").addLogoutHandler(keycloakLogoutHandler).logoutSuccessUrl("/")
                 .and().oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
@@ -62,6 +62,7 @@ public class SecurityConfig {
         return jwtAuthenticationConverter;
     }
 
+    @SuppressWarnings("unchecked")
     @Bean
     public GrantedAuthoritiesMapper userAuthoritiesMapperForKeycloak() {
         return authorities -> {
@@ -81,8 +82,8 @@ public class SecurityConfig {
                 Map<String, Object> userAttributes = oauth2UserAuthority.getAttributes();
 
                 if (userAttributes.containsKey(REALM_ACCESS_CLAIM)) {
-                    Map<String, Object> realmAccess =  (Map<String,Object>) userAttributes.get(REALM_ACCESS_CLAIM);
-                    Collection<String> roles =  (Collection<String>) realmAccess.get(ROLES_CLAIM);
+                    Map<String, Object> realmAccess = (Map<String, Object>) userAttributes.get(REALM_ACCESS_CLAIM);
+                    Collection<String> roles = (Collection<String>) realmAccess.get(ROLES_CLAIM);
                     mappedAuthorities.addAll(generateAuthoritiesFromClaim(roles));
                 }
             }

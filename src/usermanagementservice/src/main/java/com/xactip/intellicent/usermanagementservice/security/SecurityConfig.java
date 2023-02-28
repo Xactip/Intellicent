@@ -62,6 +62,7 @@ public class SecurityConfig {
         return jwtAuthenticationConverter;
     }
 
+    @SuppressWarnings("unchecked")
     @Bean
     public GrantedAuthoritiesMapper userAuthoritiesMapperForKeycloak() {
         return authorities -> {
