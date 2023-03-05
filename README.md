@@ -16,8 +16,8 @@
 
 ## Spring Boot App Containers:
 ### knowledgebase-app:
-* `docker build --force-rm -t knowledgebase-app:1.0 .`
-* `docker run -d --network intellicent-network -p 8080:8080 --name knowledgebase-app knowledgebase-app:1.0`
+* `docker build --force-rm -t knowledgebase-app:1.0 .\src\knowledgebaseservice\ `
+* `docker run -d --network intellicent-network -p 8080:8080 --name knowledgebase-app -e MONGO_HOST=knowledgebase-mongo:27017 -e KC_HOST=keycloak-app:8099 knowledgebase-app:1.0`
 ### usermanagement-app:
-* `docker build --force-rm -t usermanagement-app:1.0 .`
-* `docker run -d --network intellicent-network -p 8081:8081 --name usermanagement-app usermanagement-app:1.0`
+* `docker build --force-rm -t usermanagement-app:1.0 .\src\usermanagementservice\ `
+* `docker run -d --network intellicent-network -p 8081:8081 --name usermanagement-app -e MONGO_HOST=usermanagement-mongo:27018 -e KC_HOST=keycloak-app:8099 usermanagement-app:1.0`
