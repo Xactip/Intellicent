@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: knowledgebase-mongo-data-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 512Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: knowledgebase-mongo-config-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: knowledgebase-mongo
+spec:
+  selector:
+    app: knowledgebase-mongo
+  ports:
+    - port: 27017
+      targetPort: 27017
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: knowledgebase-mongo
+spec:
+  selector:
+    matchLabels:
+      app: knowledgebase-mongo
+  template:
+    metadata:
+      labels:
+        app: knowledgebase-mongo
+    spec:
+      containers:
+        - name: knowledgebase-mongo
+          image: mongo:5.0.15
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: knowledgebase-mongo-data
+              mountPath: /data/db
+            - name: knowledgebase-mongo-config
+              mountPath: /data/configdb
+      volumes:
+        - name: knowledgebase-mongo-data
+          persistentVolumeClaim:
+            claimName: knowledgebase-mongo-data-pvc
+        - name: knowledgebase-mongo-config
+          persistentVolumeClaim:
+            claimName: knowledgebase-mongo-config-pvc

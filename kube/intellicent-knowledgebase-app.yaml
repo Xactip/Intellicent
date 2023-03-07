@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: intellicent-knowledgebase-app
+spec:
+  selector:
+    app: intellicent-knowledgebase-app
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: intellicent-knowledgebase-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: intellicent-knowledgebase-app
+  template:
+    metadata:
+      labels:
+        app: intellicent-knowledgebase-app
+    spec:
+      containers:
+        - name: intellicent-knowledgebase-app
+          image: xactip/intellicent-knowledgebase-app:1.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MONGO_HOST
+              value: knowledgebase-mongo:27017
+            - name: KC_HOST
+              value: keycloak-app:8099
+          imagePullPolicy: Always
