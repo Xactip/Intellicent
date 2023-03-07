@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: usermanagement-mongo-data-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 512Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: usermanagement-mongo-config-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: usermanagement-mongo
+spec:
+  selector:
+    app: usermanagement-mongo
+  ports:
+    - port: 27018
+      targetPort: 27017
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: usermanagement-mongo
+spec:
+  selector:
+    matchLabels:
+      app: usermanagement-mongo
+  template:
+    metadata:
+      labels:
+        app: usermanagement-mongo
+    spec:
+      containers:
+        - name: usermanagement-mongo
+          image: mongo:5.0.15
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: usermanagement-mongo-data
+              mountPath: /data/db
+            - name: usermanagement-mongo-config
+              mountPath: /data/configdb
+      volumes:
+        - name: usermanagement-mongo-data
+          persistentVolumeClaim:
+            claimName: usermanagement-mongo-data-pvc
+        - name: usermanagement-mongo-config
+          persistentVolumeClaim:
+            claimName: usermanagement-mongo-config-pvc

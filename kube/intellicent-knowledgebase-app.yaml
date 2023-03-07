@@ -6,7 +6,7 @@ spec:
   selector:
     app: intellicent-knowledgebase-app
   ports:
-    - port: 80
+    - port: 8080
       targetPort: 8080
   type: LoadBalancer
 ---
@@ -15,7 +15,7 @@ kind: Deployment
 metadata:
   name: intellicent-knowledgebase-app
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: intellicent-knowledgebase-app

@@ -1,5 +1,5 @@
 # App deployment notes
-###### _All commands written related to the root app folder:_`cd <path_to_root_folder>/Intellicent`
+###### _All commands written related to the root app folder:_ `cd <path_to_root_folder>/Intellicent`
 
 - [1. Run in Docker manually](#1-how-to-run-in-docker-manually)
   - [1.1. Initial steps](#11-initial-steps)
@@ -36,11 +36,11 @@
 
 ### 1.4. Spring Boot App Containers
 #### 1.4.1. intellicent-knowledgebase-app
-* `docker build --force-rm -t intellicent-knowledgebase-app:1.0 .\src\knowledgebaseservice\ `
+* `docker build --force-rm -t xactip/intellicent-knowledgebase-app:1.0 .\src\knowledgebaseservice\ `
 * `docker push xactip/intellicent-knowledgebase-app:1.0`
 * `docker run -d --network intellicent-network -p 8080:8080 --name knowledgebase-app -e MONGO_HOST=knowledgebase-mongo:27017 -e KC_HOST=keycloak-app:8099 xactip/intellicent-knowledgebase-app:1.0`
 #### 1.4.2. usermanagement-app
-* `docker build --force-rm -t intellicent-usermanagement-app:1.0 .\src\usermanagementservice\ `
+* `docker build --force-rm -t xactip/intellicent-usermanagement-app:1.0 .\src\usermanagementservice\ `
 * `docker push xactip/intellicent-usermanagement-app:1.0`
 * `docker run -d --network intellicent-network -p 8081:8081 --name usermanagement-app -e MONGO_HOST=usermanagement-mongo:27018 -e KC_HOST=keycloak-app:8099 xactip/intellicent-usermanagement-app:1.0`
 
@@ -69,8 +69,12 @@
 `kubectl logs -f <pod_name>`
 * Get kubernetes pod deployment details:  
 `kubectl describe pod <pod_name>`
+* Run command under pod:  
+`kubectl exec --stdin --tty <pod-name> -- <command/bash>`
 
 ### 2.4. Cleansing:
+* Stop Minikube:  
+`minikube stop --all`
 * Delete specific resource by type and optionally by resource name:  
 `kubectl delete <pods/deployments/services/PersistentVolumeClaims/etc> <optional_resource_name>`
 * delete kubernetes node with everything associated in minikube:  
