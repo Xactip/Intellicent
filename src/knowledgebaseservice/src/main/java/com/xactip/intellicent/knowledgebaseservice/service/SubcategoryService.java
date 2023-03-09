@@ -24,8 +24,10 @@ public class SubcategoryService {
         return mapper.entityToDTO(subcategories);
     }
 
-    public boolean existsById(String id) {
-        return repository.existsById(id);
+    public void verifyIfSubcategoryExists(String id) {
+        if (!repository.existsById(id)) {
+            throw new ReferenceNotFoundException("Referenced subcategory not found by ID " + id);
+        }
     }
 
     public SubcategoryDto getSubcategoryById(String id) {
@@ -35,9 +37,7 @@ public class SubcategoryService {
     }
 
     public SubcategoryDto addSubcategory(SubcategoryDto subcategoryDto) {
-        if (!categoryService.existsById(subcategoryDto.categoryId())) {
-            throw new ReferenceNotFoundException("Referenced category not found by ID " + subcategoryDto.categoryId());
-        }
+        categoryService.verifyIfCategoryExists(subcategoryDto.categoryId());
         Subcategory subcategory = mapper.dtoToEntity(subcategoryDto);
         Subcategory savedCategory = repository.save(subcategory);
         return mapper.entityToDTO(savedCategory);
@@ -46,6 +46,9 @@ public class SubcategoryService {
     public SubcategoryDto updateSubcategory(String id, SubcategoryDto subcategoryDto) {
         return repository.findById(id)
                 .map(subcategory -> {
+                    if (!subcategory.getCategoryId().equals(subcategoryDto.categoryId())) {
+                        categoryService.verifyIfCategoryExists(subcategoryDto.categoryId());
+                    }
                     subcategory.setCategoryId(subcategoryDto.categoryId());
                     subcategory.setTitle(subcategoryDto.title());
                     subcategory.setDescription(subcategoryDto.description());

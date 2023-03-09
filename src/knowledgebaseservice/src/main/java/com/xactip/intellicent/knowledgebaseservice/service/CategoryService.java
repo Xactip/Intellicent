@@ -2,6 +2,7 @@ package com.xactip.intellicent.knowledgebaseservice.service;
 
 import com.xactip.intellicent.knowledgebaseservice.dto.CategoryDto;
 import com.xactip.intellicent.knowledgebaseservice.exception.EntityNotFoundException;
+import com.xactip.intellicent.knowledgebaseservice.exception.ReferenceNotFoundException;
 import com.xactip.intellicent.knowledgebaseservice.mapping.CategoryMapper;
 import com.xactip.intellicent.knowledgebaseservice.model.Category;
 import com.xactip.intellicent.knowledgebaseservice.repository.CategoryRepository;
@@ -22,8 +23,10 @@ public class CategoryService {
         return mapper.entityToDTO(categories);
     }
 
-    public boolean existsById(String id) {
-        return repository.existsById(id);
+    public void verifyIfCategoryExists(String id) {
+        if (!repository.existsById(id)) {
+            throw new ReferenceNotFoundException("Referenced category not found by ID " + id);
+        }
     }
 
     public CategoryDto getCategoryById(String id) {
