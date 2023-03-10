@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -38,7 +40,12 @@ public class CategoryController {
     @PostMapping("/categories")
     public ResponseEntity<CategoryDto> addCategory(@Valid @RequestBody CategoryDto categoryDto) {
         CategoryDto createdCategory = service.addCategory(categoryDto);
-        return ResponseEntity.ok(createdCategory);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(createdCategory.id())
+                .toUri();
+        return ResponseEntity.created(location).body(createdCategory);
     }
 
     @PutMapping("/categories/{id}")
