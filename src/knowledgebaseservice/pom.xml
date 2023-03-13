@@ -96,6 +96,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>com.github.dasniko</groupId>
+            <artifactId>testcontainers-keycloak</artifactId>
+            <version>2.5.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.c4-soft.springaddons</groupId>
             <artifactId>spring-addons-oauth2-test</artifactId>
             <version>${com.c4-soft.springaddons.version}</version>
